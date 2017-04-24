@@ -3,12 +3,15 @@
 ADXL345 adxl = ADXL345();             // Setting up the sensor
 
 // Setting up the Ultrasonic Sensor
-int trigPin = 12; // trig pin
-int echoPin = 11; // echo pin
+int trigPin = 2; // trig pin
+int echoPin = 3; // echo pin
 float pingTime;
 float targetDistance;
 float speedOfSound = 776.5;
 int i;
+
+// Setting up the flex sensor
+const int flexpin = 0; 
 
 void setup() {
     Serial.begin(9600);                 // Start the serial terminal
@@ -58,18 +61,24 @@ void setup() {
 }
 
 void loop() {
-    // put your main code here, to run repeatedly:
-    // Accelerometer Readings
+  
+    // Accelerometer Stuff
+    // Accelerometer Axiis
     int x,y,z;   
     adxl.readAccel(&x, &y, &z);
 
-     // ADXL_ISR(); 
+    // ADXL_ISR(); // May not need this, is just a random function used
+    // but can be imitated in the loop{}
+    
     // Free Fall Detection
     byte interrupts = adxl.getInterruptSource();
     if(adxl.triggered(interrupts, ADXL345_FREE_FALL)){
       Serial.println("*** FREE FALL ***");
       //add code here to do when free fall is sensed
     } 
+    // Print out some stuff
+    Serial.print("Z axis data");
+    Serial.println(z); 
 
     // Ultrasonic Sensor Stuff
     for( i=0; i<5; i++) {
@@ -87,8 +96,18 @@ void loop() {
   
     Serial.println("The target distance in inches is: ");
     Serial.println(targetDistance);
+
+    // Flex Sensor Stuff
+    int flexposition;
+    // Reads the position of the sensor
+    flexposition = analogRead(flexpin);
+    // Prints the position of the sensor
+    Serial.println("Flex Position");
+    Serial.println(flexposition);
+    
+    }
 }
-}
+
 //void ADXL_ISR() {
 //
 //    // getInterruptSource clears all triggered actions after returning value
