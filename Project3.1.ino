@@ -70,8 +70,17 @@ void loop() {
     flexposition = analogRead(flexpin);
     // Prints the position of the sensor
     Serial.println("Flex Position: ");
-    //Serial.print(flexposition);
+    Serial.print(flexposition);
     Serial.println();
+
+    // Make the buzzer buzz when a car has been hit
+    if(flexposition < 800) {
+      for( x = 0; x < 5; x++) {
+        tone(7,1000);
+        delay(100);
+        noTone(7);
+      }
+    }
 
     delay(1000);
     
