@@ -9,6 +9,12 @@ ADXL345 adxl = ADXL345();
 // Setting up the flex sensor
 const int flexpin = 0; 
 
+// Write out a file
+int x = 0;
+int y = 0;
+int z = 0;
+int row = 0;
+
 void setup() {
     // Setting up main stuff
     Serial.begin(9600);                 // Start the serial terminal
@@ -28,7 +34,8 @@ void setup() {
     adxl.ActivityINT(1);
     adxl.singleTapINT(1);
 
-
+    Serial.println("CLEARDATA");
+    Serial.println("LABEL,X,Y,Z");
 }
 
 void loop() {
@@ -89,9 +96,20 @@ void loop() {
       }
     }
 
+    Serial.print("DATA,TIME,");
+    Serial.print(x);
+    Serial.print(",");
+    Serial.print(y);
+    Serial.print(",");
+    Serial.print(z);
+
+    row++;
+    if(flexposition < 800) {
+      row = 0;
+      Serial.println("Event");
+    }
+
     delay(100);
 
-    
 }
-
 
