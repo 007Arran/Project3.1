@@ -27,6 +27,8 @@ void setup() {
     // Turning on things
     adxl.ActivityINT(1);
     adxl.singleTapINT(1);
+
+
 }
 
 void loop() {
@@ -46,7 +48,7 @@ void loop() {
     Serial.print(", ");
     Serial.println();
 
-    // Ultrasonic Sensor Stuff
+    // Ultrasonic Sensor Stuff and LEDs
     Serial.println(ultrasonic.distanceRead(INC));
     if(ultrasonic.distanceRead(INC) < 5) {
       digitalWrite(8, HIGH);
@@ -62,6 +64,11 @@ void loop() {
       digitalWrite(8, LOW);
       digitalWrite(9, LOW);
       digitalWrite(10, HIGH);
+    }
+    if(ultrasonic.distanceRead(INC) > 20) {
+      digitalWrite(8, LOW);
+      digitalWrite(9, LOW);
+      digitalWrite(10, LOW);
     }
 
     // Flex Sensor Stuff
@@ -82,7 +89,9 @@ void loop() {
       }
     }
 
-    delay(1000);
+    delay(100);
+
     
 }
+
 
